@@ -1,0 +1,17 @@
+server:
+  port: 9090
+
+spring:
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: greet-service
+            uri: lb://GREETAPI-PROJECT-MICROSERVICES
+            predicates:
+              - Path=/greet/**
+
+          - id: welcome-service
+            uri: lb://WELCOMEAPI-PROJECT-MICROSERVICES
+            predicates:
+              - Path=/wel/**
