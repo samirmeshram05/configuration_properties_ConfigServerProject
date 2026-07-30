@@ -4,14 +4,30 @@ server:
 spring:
   cloud:
     gateway:
-      mvc:
-        routes:
-          - id: greet-service
-            uri: lb://GREETAPI-PROJECT-MICROSERVICES
-            predicates:
-              - Path=/greet/**
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
 
-          - id: welcome-service
-            uri: lb://WELCOMEAPI-PROJECT-MICROSERVICES
-            predicates:
-              - Path=/wel/**
+      server:
+        webflux:
+          routes:
+            - id: greet-service
+              uri: lb://GREETAPI-PROJECT-MICROSERVICES
+              predicates:
+                - Path=/greet/**
+
+            - id: welcome-service
+              uri: lb://WELCOMEAPI-PROJECT-MICROSERVICES
+              predicates:
+                - Path=/wel/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  endpoint:
+    health:
+      show-details: always
